@@ -85,6 +85,10 @@ section {
   margin-right: auto;
 }
 
+.margin {
+  margin-bottom: 20px;
+}
+
 .white {
   color: white;
 }
@@ -93,7 +97,7 @@ button {
   background-color: #6E6E6E;
   color: white;
   border-radius: 20px;
-  padding: 7px 10px 7px 10px;
+  padding: 7px 30px;
   margin: 5px;
   font-weight: bold;
   max-height: 31px;

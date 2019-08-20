@@ -2,10 +2,19 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Open Sans',serif;
 }
 
-h1 {
+body {
+  color: #7F7F7F;
+}
+
+.pink {
   color: #DD1972;
+}
+
+.grey {
+  color: #C6C6C7;
 }
 
 header {
@@ -14,6 +23,16 @@ header {
 
 article {
   border: 2px solid #EDEDED;
+  background-color: white;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.set-range-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
 main {
@@ -24,16 +43,33 @@ main {
 section {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  padding: 10px;
+  height: -webkit-fill-available;
+  height: -moz-available;
+}
+
+.section-right {
+  background-color: #D1D2D4;
+}
+
+.section-left {
+  background-color: #F5F6F8;
 }
 
 .text-box{
   display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .text-center {
   text-align: center;
 }
 
+.text-left {
+  text-align: left;
+}
 .content-center {
   margin-left: auto;
   margin-right: auto;
@@ -43,21 +79,53 @@ section {
   color: white;
 }
 
-.white-line {
-  display: inline;
-  background: #ffffff;
-  width: 100px;
-  height: 100px;
-}
-
 button {
   background-color: #6E6E6E;
   color: white;
   border-radius: 20px;
-  padding: 10px;
+  padding: 7px 10px 7px 10px;
   margin: 5px;
+  font-weight: bold;
+  max-height: 31px;
 }
-/* Remove if not used */
+
+input {
+  margin-bottom: 10px;
+}
+
 .bold {
   font-weight: bold;
+}
+
+.slim {
+  font-weight: 300;
+}
+
+.larger {
+  font-size: -webkit-xxx-large;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.game-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.small {
+  width: 2px;
+  border: 1px #EDEDED solid;
+}
+
+.white-line {
+  background-color: white;
+  height: 1px;
+  width: 20px;
 }

@@ -9,9 +9,11 @@
   <body>
     <header>
       <h1 class="text-center larger pink"><strong class="bold">NUMBER</strong><span class="slim">GUESSER</span></h1>
-      <span class="white-line"></span>
-      <h3 class="text-center grey slim">ULTIMATE CHALLENGER EDITION</h3>
-      <span class="white-line"></span>
+      <div class="flex-center">
+        <div class="line"></div>
+        <h3 class="text-center grey slim header-adjust">ULTIMATE CHALLENGER EDITION</h3>
+        <div class="line"></div>
+      </div>
     </header>
     <main>
       <section class="section-left">
@@ -25,12 +27,12 @@
             <span>Max Range</span>
             <input type="text" name="" value="">
           </div>
-          <button class="flex-end" type="button" name="button">UPDATE</button>
+          <button type="button" name="button">UPDATE</button>
         </article>
         <article class="">
-          <p class="margin">The Current Range is <span class="bold underline">0</span> to <span class="bold underline">10</span></p>
+          <p>The Current Range is <span class="bold underline">0</span> to <span class="bold underline">10</span></p>
           <div class="set-range-section">
-            <div class="text-box name-box">
+            <div class="text-box">
               <h2>Challenger 1</h2>
               <span>Name</span>
               <input type="text" name="" value="">
@@ -41,7 +43,7 @@
             </div>
           </div>
           <div class="set-range-section">
-            <div class="text-box name-box">
+            <div class="text-box">
               <h2>Challenger 2</h2>
               <span>Name</span>
               <input type="text" name="" value="">
@@ -78,12 +80,14 @@
       </section>
       <section class="section-right">
         <article class="text-center">
-          <p><span class="bold">CHALLENGER NAME 1 </span><span class="slim"> VS </span><span class="bold"> CHALLENGER 2 NAME</span></p>
+          <p class="flex-space-around cvc"><span class="bold">CHALLENGER NAME 1 </span><span class="slim"> VS </span><span class="bold"> CHALLENGER 2 NAME</span></p>
           <hr>
-          <p><span class="bold">CHALLENGER NAME 1 </span></p>
-          <h1 class="slim">WINNER</h1>
+          <div class="winner">
+            <p><span class="bold large">CHALLENGER NAME 1 </span></p>
+            <h1 class="slim large">WINNER</h1>
+          </div>
           <hr>
-          <p><span><span>23</span>GUESSES</span> <span><span>1.35</span>MINUTES</span><button type="button" name="button">X</button></p>
+          <p class="flex-space-between guesses"><span><span class="bold guess-count">23</span>GUESSES</span> <span><span class="bold guess-count">1.35</span>MINUTES</span><button class="delete" type="button" name="button"><span class="delete-inner">X</span></button></p>
         </article>
       </section>
     </main>

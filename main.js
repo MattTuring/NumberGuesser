@@ -1,5 +1,4 @@
 // The clear button should be disabled if there is nothing to clear.
-// The reset button should be disabled if there is nothing to reset.
 
 
 //Generate the base random 1-100
@@ -12,93 +11,147 @@ var guessCount = 0;
 
 //Sets the updated user number to make the game harder or easier
 
+var minRange = document.getElementById('min-range');
+var maxRange = document.getElementById('max-range');
+var resetGame = document.getElementById('reset-game');
+var submitGuess = document.getElementById('submit-guess');
+var playerOneCurrentName = document.getElementById('player-one-current-name');
+var playerOneName = document.getElementById('player-one-name');
+var playerTwoCurrentName = document.getElementById('player-two-current-name');
+var playerTwoName = document.getElementById('player-two-name');
+var playerOneCurrentGuess = document.getElementById('player-one-current-guess');
+var playerOneGuess = document.getElementById('player-one-guess');
+var playerTwoCurrentGuess = document.getElementById('player-two-current-guess');
+var playerTwoGuess = document.getElementById('player-two-guess');
+var playerOneHighLow = document.getElementById('player-one-high-low');
+var playerTwoHighLow = document.getElementById('player-two-high-low');
+var resultsWinnerName = document.getElementById('results-winner-name');
+
+
 document.getElementById('update').addEventListener('click', function() {
-  minNumber = document.getElementById('min-range').value;
-  maxNumber = document.getElementById('max-range').value;
+  minNumber = minRange.value;
+  maxNumber = maxRange.value;
   secretNumber = Math.floor((Math.random() * maxNumber) + minNumber)
-  document.getElementById('min-range-current').innerText = document.getElementById('min-range').value;
-  document.getElementById('max-range-current').innerText = document.getElementById('max-range').value;
+  document.getElementById('min-range-current').innerText = minRange.value;
+  document.getElementById('max-range-current').innerText = maxRange.value;
 })
 
 //Resets Random Number
 
-document.getElementById('reset-game').addEventListener('click', function() {
+resetGame.addEventListener('click', function() {
   secretNumber = Math.floor((Math.random() * maxNumber) + minNumber);
   guessCount = 0;
   if (guessCount < 1) {
-    document.getElementById("reset-game").disabled = true;
+    resetGame.disabled = true;
   } else if (minNumber != 1) {
-    document.getElementById("reset-game").disabled = true;
+    resetGame.disabled = true;
   } else if (maxNumber != 100) {
-    document.getElementById("reset-game").disabled = true;
+    resetGame.disabled = true;
   }
 })
 
-//Updates Player Values
+function changeNames() {
+  playerOneCurrentName.innerText = playerOneName.value;
+  playerTwoCurrentName.innerText = playerTwoName.value;
+  playerOneCurrentGuess.innerText = playerOneGuess.value;
+  playerTwoCurrentGuess.innerText = playerTwoGuess.value;
+}
 
-document.getElementById('submit-guess').addEventListener('click', function() {
-  document.getElementById('player-one-current-name').innerText = document.getElementById('player-one-name').value;
-  document.getElementById('player-two-current-name').innerText = document.getElementById('player-two-name').value;
-  document.getElementById('player-one-current-guess').innerText = document.getElementById('player-one-guess').value;
-  document.getElementById('player-two-current-guess').innerText = document.getElementById('player-two-guess').value;
+function highLow() {
+    if (playerOneGuess.value > secretNumber) {
+      playerOneHighLow.innerText = "that's too high"
+    } else if (playerOneGuess.value == secretNumber){
+      playerOneHighLow.innerText = "BOOM!"
+    } else {
+      playerOneHighLow.innerText = "that's too low"
+    }
 
-  if (document.getElementById('player-one-guess').value > secretNumber) {
-    document.getElementById('player-one-high-low').innerText = "high"
-  } else if (document.getElementById('player-one-guess').value == secretNumber){
-      document.getElementById('player-one-high-low').innerText = "correct"
-  } else {
-    document.getElementById('player-one-high-low').innerText = "low"
-  }
+    if (playerTwoGuess.value > secretNumber) {
+      playerTwoHighLow.innerText = "that's too high"
+    } else if (playerTwoGuess.value == secretNumber){
+      playerTwoHighLow.innerText = "BOOM!"
+    } else {
+      playerTwoHighLow.innerText = "that's too low"
+    }
+}
 
-  if (document.getElementById('player-two-guess').value > secretNumber) {
-    document.getElementById('player-two-high-low').innerText = "high"
-  } else if (document.getElementById('player-two-guess').value == secretNumber){
-      document.getElementById('player-two-high-low').innerText = "correct"
-  } else {
-    document.getElementById('player-two-high-low').innerText = "low"
-  }
-
- //Determines winner
-
-  if (document.getElementById('player-one-current-guess').innerText == secretNumber) {
-    document.getElementById('results-winner-name').innerText = document.getElementById('player-one-name').value;
+function checkWinner() {
+  if (playerOneCurrentGuess.innerText == secretNumber && playerTwoCurrentGuess.innerText == secretNumber) {
+    resultsWinnerName.innerText = "TIE!";
     document.querySelector('.guess-count').innerText = guessCount;
-  } else if (document.getElementById('player-two-current-guess').innerText == secretNumber) {
-    document.getElementById('results-winner-name').innerText = document.getElementById('player-two-name').value;
+    document.getElementById('results-player-one-current-name').innerText = playerOneName.value;
+    document.getElementById('results-player-two-current-name').innerText = playerTwoName.value;
+    document.getElementById('winner-disappear').innerText = "";
+  } else if (playerOneCurrentGuess.innerText == secretNumber) {
+    resultsWinnerName.innerText = playerOneName.value;
     document.querySelector('.guess-count').innerText = guessCount;
-  } else if (document.getElementById('player-two-current-guess').innerText && document.getElementById('player-two-current-name').innerText == secretNumber) {
-    document.getElementById('results-winner-name').innerText = "TIE!";
+    document.getElementById('results-player-one-current-name').innerText = playerOneName.value;
+    document.getElementById('results-player-two-current-name').innerText = playerTwoName.value;
+  } else if (playerTwoCurrentGuess.innerText == secretNumber) {
+    resultsWinnerName.innerText = playerTwoName.value;
     document.querySelector('.guess-count').innerText = guessCount;
+    document.getElementById('results-player-one-current-name').innerText = playerOneName.value;
+    document.getElementById('results-player-two-current-name').innerText = playerTwoName.value;
   } else {
     console.log('keep going')
   }
+}
+
+submitGuess.addEventListener('click', function() {
   guessCount = guessCount + 1;
+  changeNames();
+  highLow();
+  checkWinner();
 
   if (guessCount > 0) {
     document.getElementById("reset-game").disabled = false;
   }
 
-  //clears player guess
-  document.getElementById('player-one-guess').value = "";
-  document.getElementById('player-two-guess').value = "";
+  playerOneGuess.value = "";
+  playerTwoGuess.value = "";
 })
 
 
 // Clears Input Fields
 
 document.getElementById('clear-game').addEventListener('click', function() {
-  document.getElementById('player-one-name').value = "";
-  document.getElementById('player-two-name').value = "";
-  document.getElementById('player-one-guess').value = "";
-  document.getElementById('player-two-guess').value = "";
+  playerOneName.value = "";
+  playerTwoName.value = "";
+  playerOneGuess.value = "";
+  playerTwoGuess.value = "";
 })
 
 //disables clear button on load
 
 window.addEventListener('load', function() {
-  document.getElementById("clear-game").disabled = true;
-  document.getElementById("reset-game").disabled = true;
+  document.getElementById('clear-game').disabled = true;
+  document.getElementById('reset-game').disabled = true;
 });
+
+
+
+//The application should display an error message if the value entered in the Max Range input is less than the value in the Min Range input
+//The application should display an error message if the value entered in the Min Range input is greater than the value in the Max Range input
+
+document.getElementById('min-range').addEventListener('change', function() {
+if (document.getElementById('min-range').value < document.getElementById('max-range').value) {
+document.getElementById('error-one').classList.add('show');
+}
+})
+
+
+
+
+// function winnerCard() {
+//   var article = document.createElement('article');
+//   document.querySelector('.section-right').appendChild(article);
+//   article.innerHTML = domString;
+//   document.querySelector('.section-right').scrollBy({
+//     top: 100, // could be negative value
+//     left: 0,
+//     behavior: 'smooth'
+// })
+// }
 
 //enabled clear button
 
@@ -115,15 +168,32 @@ window.addEventListener('load', function() {
 
 // Move these uptop after we decide what to do
 
+
+//var mustBeNumber = document.querySelectorAll('.must-be-number');
+
+// mustBeNumber.forEach(input => {
 //
-// var mustBeNumber = document.querySelector('.must-be-number');
+//    input.addEventListener('change', event => {
+//      if (typeof mustBeNumberValue === "string") {
+//      alert('no');
+//    }})
+// });
+
+
 // var mustBeNumberValue = mustBeNumber.value
-//
-//
+//     if (typeof mustBeNumberValue === "string") {
+  //   alert('no');
 // mustBeNumber.addEventListener('change', function() {
-//
 //   if (typeof mustBeNumberValue === "string") {
 //     alert('no');
 //   } else {}
-//
 // })
+
+// function checkNum() {
+//   var mustBeNumber = document.querySelectorAll('.must-be-number');
+//   for (var i = 0; i < mustBeNumber.length; i++) {
+//     if (Number.NaN(mustBeNumber[i])) {
+//       alert('THAT IS NOT A NUMBER');
+//     }
+//   }
+// }

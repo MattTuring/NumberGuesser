@@ -22,11 +22,13 @@
           <div class="text-box name-box">
             <h2>Set Range</h2>
             <span>Min Range</span>
-            <input id="min-range" type="text" name="Min Range" value="">
+            <input id="min-range"type="text" class="must-be-number" name="Min Range" value="">
+            <span id="error-two" class="hidden">Higher then Max Range<span>
           </div>
           <div class="text-box name-box">
             <span>Max Range</span>
-            <input id="max-range" type="text" name="" value="">
+            <input id="max-range" type="text" class="must-be-number" name="" value="">
+            <span id="error-two" class="hidden">Lower then Min Range<span>
           </div>
           <button class="flex-end" type="button" name="button" id="update">UPDATE</button>
         </article>
@@ -62,16 +64,16 @@
             <div class="name-box">
               <h3 id="player-one-current-name">Challenger 1 Name</h3>
               <p>current guess</p>
-              <h1 class="larger pink" id="player-one-current-guess">97</h1>
-              <p>that's too <span id="player-one-high-low">high</span></p>
+              <h1 class="larger pink" id="player-one-current-guess">?</h1>
+              <p id="player-one-high-low">that's too high</p>
             </div>
             <div class="small">
             </div>
             <div class="name-box">
               <h3 id="player-two-current-name">Challenger 2 Name</h3>
               <p>current guess</p>
-              <h1 class="larger pink" id="player-two-current-guess">3</h1>
-              <p>that's too <span id="player-two-high-low">high</span></p>
+              <h1 class="larger pink" id="player-two-current-guess">?</h1>
+              <p id="player-two-high-low">that's too high</p>
             </div>
           </div>
         </article>
@@ -82,7 +84,7 @@
           <hr>
           <div class="winner">
             <p><span class="bold large" id="results-winner-name">CHALLENGER NAME 1 </span></p>
-            <h1 class="slim large">WINNER</h1>
+            <h1 class="slim large" id="winner-disappear">WINNER</h1>
           </div>
           <hr>
           <p class="flex-space-between guesses"><span><span class="bold guess-count">??</span>GUESSES</span> <span><span class="bold guess-count">1.35</span>MINUTES</span><button class="delete" type="button" name="button" id="delete"><span class="delete-inner">X</span></button></p>

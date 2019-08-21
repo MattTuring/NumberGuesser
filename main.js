@@ -23,7 +23,15 @@ document.getElementById('update').addEventListener('click', function() {
 //Resets Random Number
 
 document.getElementById('reset-game').addEventListener('click', function() {
-  secretNumber = Math.floor((Math.random() * maxNumber) + minNumber)
+  secretNumber = Math.floor((Math.random() * maxNumber) + minNumber);
+  guessCount = 0;
+  if (guessCount < 1) {
+    document.getElementById("reset-game").disabled = true;
+  } else if (minNumber != 1) {
+    document.getElementById("reset-game").disabled = true;
+  } else if (maxNumber != 100) {
+    document.getElementById("reset-game").disabled = true;
+  }
 })
 
 //Updates Player Values
@@ -36,15 +44,17 @@ document.getElementById('submit-guess').addEventListener('click', function() {
 
   if (document.getElementById('player-one-guess').value > secretNumber) {
     document.getElementById('player-one-high-low').innerText = "high"
-  }
-  else {
+  } else if (document.getElementById('player-one-guess').value == secretNumber){
+      document.getElementById('player-one-high-low').innerText = "correct"
+  } else {
     document.getElementById('player-one-high-low').innerText = "low"
   }
 
   if (document.getElementById('player-two-guess').value > secretNumber) {
     document.getElementById('player-two-high-low').innerText = "high"
-  }
-  else {
+  } else if (document.getElementById('player-two-guess').value == secretNumber){
+      document.getElementById('player-two-high-low').innerText = "correct"
+  } else {
     document.getElementById('player-two-high-low').innerText = "low"
   }
 
@@ -68,6 +78,9 @@ document.getElementById('submit-guess').addEventListener('click', function() {
     document.getElementById("reset-game").disabled = false;
   }
 
+  //clears player guess
+  document.getElementById('player-one-guess').value = "";
+  document.getElementById('player-two-guess').value = "";
 })
 
 

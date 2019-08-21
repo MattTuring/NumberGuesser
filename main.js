@@ -63,7 +63,13 @@ document.getElementById('submit-guess').addEventListener('click', function() {
     console.log('keep going')
   }
   guessCount = guessCount + 1;
+
+  if (guessCount > 0) {
+    document.getElementById("reset-game").disabled = false;
+  }
+
 })
+
 
 // Clears Input Fields
 
@@ -78,6 +84,7 @@ document.getElementById('clear-game').addEventListener('click', function() {
 
 window.addEventListener('load', function() {
   document.getElementById("clear-game").disabled = true;
+  document.getElementById("reset-game").disabled = true;
 });
 
 //enabled clear button

@@ -37,7 +37,13 @@ header {
   justify-content: space-between;
 }
 
+.flex-space-evenly {
+  display: flex;
+  justify-content: space-evenly;
+}
+
 .flex-end {
+  display: flex;
   align-self: flex-end;
 }
 
@@ -96,9 +102,6 @@ section {
   text-align: center;
 }
 
-.text-left {
-  text-align: left;
-}
 .content-center {
   margin-left: auto;
   margin-right: auto;
@@ -116,7 +119,7 @@ button {
   background-color: #6E6E6E;
   color: white;
   border-radius: 20px;
-  padding: 7px 30px;
+  padding: 7px 10px 7px 10px;
   margin: 5px;
   font-weight: bold;
   max-height: 31px;
@@ -152,13 +155,11 @@ input {
   justify-content: space-around;
 }
 
-.hidden {
-  visibility: hidden;
-}
-
 .small {
   width: 2px;
   border: 1px #EDEDED solid;
+  height: 160px;
+  margin-top: -20px;
 }
 
 .line {
@@ -197,4 +198,54 @@ input {
 .winner {
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+button:disabled {
+  background-color: #D0D2D3;
+}
+
+@media (max-width: 861px) {
+  .set-range-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .flex-end {
+    display: flex;
+    align-self: flex-start;
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .small {
+    width: 160px;
+    border: 1px #EDEDED solid;
+    height: 2px;
+    margin: 10px;
+  }
+}
+
+@media (max-width: 615px) {
+  main {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 470px) {
+  #header {
+    font-size: 36px;
+  }
+  .header-adjust {
+    font-size: 13px;
+    margin-top: -9px;
+  }
+  .line {
+    width: 40px;
+  }
 }

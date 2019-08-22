@@ -37,7 +37,7 @@ document.getElementById('update').addEventListener('click', function() {
   minNumber = parseInt(minRange.value);
   maxNumber = parseInt(maxRange.value);
   if (Number.isInteger(minNumber) != true) {
-    alert("Min Range is not a number!");
+    alert("Max Range is not a number!");
   } else if (Number.isInteger(maxNumber) != true) {
     alert("Max Range is not a number!");
   } else {
@@ -87,8 +87,8 @@ function highLow() {
 }
 
 function setNames() {
-nameOne = playerOneName.value;
-nameTwo = playerTwoName.value;
+  nameOne = playerOneName.value;
+  nameTwo = playerTwoName.value;
 }
 
 function checkWinner() {
@@ -129,19 +129,19 @@ submitGuess.addEventListener('click', function() {
     changeNames();
     highLow();
     checkWinner();
-    setNames();
-    checkWinner();
+    // setNames();
+    // checkWinner();
     if (winner == true) {
     winnerCard();
     winner = false;
     }
     checkWinner();
 
-  if (guessCount > 0) {
+    if (guessCount > 0) {
     document.getElementById("reset-game").disabled = false;
     playerOneGuess.value = "";
     playerTwoGuess.value = "";
-  }
+  }}
 })
 
 
@@ -167,19 +167,19 @@ window.addEventListener('load', function() {
 //The application should display an error message if the value entered in the Min Range input is greater than the value in the Max Range input
 
 document.getElementById('min-range').addEventListener('change', function() {
-if (document.getElementById('min-range').value > document.getElementById('max-range').value && document.getElementById('max-range').value != "") {
-document.getElementById('error-one').classList.add('show');
-document.getElementById('update').disabled = true;
+  if (document.getElementById('min-range').value > document.getElementById('max-range').value && document.getElementById('max-range').value != "") {
+    document.getElementById('error-one').classList.add('show');
+    document.getElementById('update').disabled = true;
 } else {
-  document.getElementById('error-one').classList.remove('show');
-  document.getElementById('update').disabled = false;
+    document.getElementById('error-one').classList.remove('show');
+    document.getElementById('update').disabled = false;
 }
 })
 
 document.getElementById('max-range').addEventListener('change', function() {
   if (document.getElementById('min-range').value > document.getElementById('max-range').value && document.getElementById('max-range').value != "") {
-  document.getElementById('error-one').classList.add('show');
-  document.getElementById('update').disabled = true;
+    document.getElementById('error-one').classList.add('show');
+    document.getElementById('update').disabled = true;
   } else {
     document.getElementById('error-one').classList.remove('show');
     document.getElementById('update').disabled = false;

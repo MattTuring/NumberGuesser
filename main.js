@@ -29,11 +29,17 @@ var resultsWinnerName = document.getElementById('results-winner-name');
 
 
 document.getElementById('update').addEventListener('click', function() {
-  minNumber = minRange.value;
-  maxNumber = maxRange.value;
-  secretNumber = Math.floor((Math.random() * maxNumber) + minNumber)
-  document.getElementById('min-range-current').innerText = minRange.value;
-  document.getElementById('max-range-current').innerText = maxRange.value;
+  minNumber = parseInt(minRange.value);
+  maxNumber = parseInt(maxRange.value);
+  if (Number.isInteger(minNumber) != true) {
+    alert("Min Range is not a number!");
+  } else if (Number.isInteger(maxNumber) != true) {
+    alert("Max Range is not a number!");
+  } else {
+    secretNumber = Math.floor((Math.random() * maxNumber) + minNumber)
+    document.getElementById('min-range-current').innerText = minRange.value;
+    document.getElementById('max-range-current').innerText = maxRange.value;
+  }
 })
 
 //Resets Random Number
@@ -98,17 +104,20 @@ function checkWinner() {
 }
 
 submitGuess.addEventListener('click', function() {
-  guessCount = guessCount + 1;
-  changeNames();
-  highLow();
-  checkWinner();
-
-  if (guessCount > 0) {
+  if (Number.isInteger(parseInt(playerOneGuess.value)) != true) {
+    alert("Player 1! C'MON! That's not a number!");
+  } else if (Number.isInteger(parseInt(playerTwoGuess.value)) != true) {
+    alert("Player 2! C'MON! That's not a number!");
+  } else if (Number.isInteger()) {
+  } else {
+    guessCount = guessCount + 1;
+    changeNames();
+    highLow();
+    checkWinner();
     document.getElementById("reset-game").disabled = false;
+    playerOneGuess.value = "";
+    playerTwoGuess.value = "";
   }
-
-  playerOneGuess.value = "";
-  playerTwoGuess.value = "";
 })
 
 

@@ -75,11 +75,12 @@ section {
   flex-direction: column;
   width: 100%;
   padding: 10px;
-  height: 125vh;
+  height: 140vh;
 }
 
 .section-right {
   background-color: #D1D2D4;
+  overflow-y: scroll;
 }
 
 .section-left {
@@ -121,11 +122,17 @@ button {
   padding: 7px 10px 7px 10px;
   margin: 5px;
   font-weight: bold;
-  max-height: 31px;
+  font-size: 15px;
+}
+
+.button-100 {
+  width: 100%;
 }
 
 input {
   margin-bottom: 10px;
+  height: 35px;
+  min-width: 160px;
 }
 
 .bold {
@@ -200,11 +207,25 @@ input {
 }
 
 .hidden {
-  visibility: hidden;
+  display: none;
 }
 
 .show {
-  visibility: visible;
+  display: block;
+  position: absolute;
+  background-color: #f4433652;
+  border-radius: 4px;
+  margin-top: 9px;
+  font-size: 12px;
+}
+
+#update {
+  margin-bottom: 10px;
+}
+
+#delete {
+  max-height: 31px;
+  font-size: 12px;
 }
 
 button:disabled {

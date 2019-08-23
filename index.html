@@ -23,12 +23,12 @@
             <h2>Set Range</h2>
             <span>Min Range</span>
             <input id="min-range"type="text" class="must-be-number" name="Min Range" value="">
-            <span id="error-one" class="hidden">Higher then Max Range<span>
+            <span id="error-one" class="hidden">Higher then Max Range</span>
           </div>
           <div class="text-box name-box">
             <span>Max Range</span>
             <input id="max-range" type="text" class="must-be-number" name="" value="">
-            <span id="error-two" class="hidden">Lower then Min Range<span>
+            <span id="error-two" class="hidden">Lower then Min Range</span>
           </div>
           <button class="flex-end" type="button" name="button" id="update">UPDATE</button>
         </article>
@@ -38,10 +38,14 @@
             <div class="text-box name-box">
               <h2>Challenger 1</h2>
               <span>Name</span>
+              <span id="name-error-one" class="hidden">Y
+                ou need a name</span>
+                <span id="alpha-error-one" class="hidden">No symbols</span>
               <input type="text" name="" value="" id="player-one-name">
             </div>
             <div class="text-box">
               <span>Guess</span>
+
               <input type="text" name="" value="" id="player-one-guess">
             </div>
           </div>
@@ -49,6 +53,8 @@
             <div class="text-box name-box">
               <h2>Challenger 2</h2>
               <span>Name</span>
+              <span id="name-error-two" class="hidden">You need a name</span>
+              <span id="alpha-error-two" class="hidden">No symbols</span>
               <input type="text" name="" value="" id="player-two-name">
             </div>
             <div class="text-box">

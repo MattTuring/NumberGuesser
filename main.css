@@ -7,6 +7,11 @@
 
 /*Large Sections and HTML Types*/
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   color: #7F7F7F;
 }
@@ -34,7 +39,6 @@ section {
   flex-direction: column;
   width: 100%;
   padding: 10px;
-  height: 160vh;
 }
 
 button {
@@ -141,6 +145,10 @@ input {
 
 .margin {
   margin-bottom: 20px;
+}
+
+.full-height {
+  height: auto;
 }
 
 .button-100 {
@@ -372,13 +380,22 @@ input:focus {
     display: flex;
     flex-direction: column;
   }
+
+  header {
+    height: auto;
+    padding-bottom: 10px;
+  }
+
   #header {
     font-size: 11vw;
   }
+
   .header-adjust {
-    font-size: 13px;
+    font-size: 4vw;
     margin-top: -9px;
+    height: auto;
   }
+
   .line {
     width: 40px;
   }

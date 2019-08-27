@@ -19,72 +19,83 @@
     <main>
       <section class="section-left">
         <article class="set-range-section">
-          <div class="text-box name-box">
+          <form class="text-box name-box">
             <h2>Set Range</h2>
             <span>Min Range</span>
-            <input id="min-range"type="text" class="must-be-number" name="Min Range" value="">
-            <span id="error-one" class="hidden">Higher then Max Range</span>
-          </div>
-          <div class="text-box name-box">
+            <input id="min-range" type="text" class="must-be-number" name="Min Range" value="">
+            <span id="error-one" class="hidden"><img class="img" src="img/error.svg" alt="">Higher then Max Range</span>
+            <span id="error-one-not-number" class="hidden"><img class="img" src="img/error.svg" alt="">Please Enter a Number</span>
+          </form>
+          <form class="text-box name-box">
             <span>Max Range</span>
             <input id="max-range" type="text" class="must-be-number" name="" value="">
-            <span id="error-two" class="hidden">Lower then Min Range</span>
-          </div>
+            <span id="error-two" class="hidden"><img class="img" src="img/error.svg" alt="">Lower then Min Range</span>
+            <span id="error-two-not-number" class="hidden"><img class="img" src="img/error.svg" alt="">Please Enter a Number</span>
+          </form>
           <button class="flex-end" type="button" name="button" id="update">UPDATE</button>
         </article>
         <article class="">
           <p class="margin">The Current Range is <span class="bold underline" id="min-range-current">1</span> to <span class="bold underline" id="max-range-current">100</span></p>
           <div class="set-range-section">
-            <div class="text-box name-box">
+            <form class="text-box name-box">
               <h2>Challenger 1</h2>
               <span>Name</span>
-              <span id="name-error-one" class="hidden">Y
-                ou need a name</span>
-                <span id="alpha-error-one" class="hidden">No symbols</span>
+              <span id="name-error-one" class="hidden"><img class="img" src="img/error.svg" alt="">You need a name</span>
+                <span id="alpha-error-one" class="hidden"><img class="img" src="img/error.svg" alt="">No symbols</span>
               <input type="text" name="" value="" id="player-one-name">
-            </div>
-            <div class="text-box">
+            </form>
+            <form class="text-box">
               <span>Guess</span>
-
               <input type="text" name="" value="" id="player-one-guess">
-            </div>
+              <span id="guess-number-error-one" class="hidden"><img class="img" src="img/error.svg" alt="">That's not a number</span>
+              <span id="guess-number-error-range-one" class="hidden"><img class="img" src="img/error.svg" alt="">That's not within range</span>
+            </form>
           </div>
           <div class="set-range-section">
-            <div class="text-box name-box">
+            <form class="text-box name-box">
               <h2>Challenger 2</h2>
               <span>Name</span>
-              <span id="name-error-two" class="hidden">You need a name</span>
-              <span id="alpha-error-two" class="hidden">No symbols</span>
+              <span id="name-error-two" class="hidden"><img class="img" src="img/error.svg" alt="">You need a name</span>
+              <span id="alpha-error-two" class="hidden"><img class="img" src="img/error.svg" alt="">No symbols</span>
               <input type="text" name="" value="" id="player-two-name">
-            </div>
-            <div class="text-box">
+            </form>
+            <form class="text-box">
               <span>Guess</span>
               <input type="text" name="" value="" id="player-two-guess">
-            </div>
+              <span id="guess-number-error-two" class="hidden"><img class="img" src="img/error.svg" alt="">That's not a number</span>
+              <span id="guess-number-error-range-two" class="hidden"><img class="img" src="img/error.svg" alt="">That's not within range</span>
+            </form>
           </div>
           <span class="game-buttons column"><button class="button-100" type="button" name="button" id="submit-guess">SUBMIT GUESS</button><button class="button-100" type="button" name="button" id="reset-game">RESET GAME</button><button class="button-100" type="button" name="button" id="clear-game">CLEAR GAME</button></span>
         </article>
         <article class="">
           <h3 class="">Latest Score</h3>
           <div class="flex-space-evenly text-center column">
-            <div class="name-box">
+            <form class="name-box">
               <h3 id="player-one-current-name">Challenger 1 Name</h3>
               <p>current guess</p>
               <h1 class="larger pink" id="player-one-current-guess">?</h1>
               <p id="player-one-high-low">that's too high</p>
-            </div>
+            </form>
             <div class="small">
             </div>
-            <div class="name-box">
+            <form class="name-box">
               <h3 id="player-two-current-name">Challenger 2 Name</h3>
               <p>current guess</p>
               <h1 class="larger pink" id="player-two-current-guess">?</h1>
               <p id="player-two-high-low">that's too high</p>
-            </div>
+            </form>
           </div>
         </article>
       </section>
       <section class="section-right">
+        <article class="hidden">
+          <div class="media-flex flex-space-between">
+            <button class="button-100" type="button" name="button" >CLEAR ALL</button>
+            <button class="button-100" type="button" name="button" id="highscore">HIGHSCORES</button>
+            <button class="button-100" type="button" name="button" id="sort">SORT</button>
+        </div>
+        </article>
         <article class="text-center hidden">
           <p class="flex-space-around cvc"><span class="bold" id="results-player-one-current-name" >CHALLENGER NAME 1 </span><span class="slim"> VS </span><span class="bold" id="results-player-two-current-name"> CHALLENGER 2 NAME</span></p>
           <hr>

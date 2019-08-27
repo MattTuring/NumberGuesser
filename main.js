@@ -1,8 +1,3 @@
-// The clear button should be disabled if there is nothing to clear.
-
-
-//Generate the base random 1-100
-
 var minNumber = 1;
 var maxNumber = 100;
 var secretNumber = Math.floor((Math.random() * maxNumber) + minNumber);
@@ -18,12 +13,13 @@ var banList = ["#","?","!","@","#","$","%","^","&","*","(",")","-","+","=","<","
 var startTime = "";
 var finishTime = "";
 var complete = "";
-//Sets the updated user number to make the game harder or easier
 
 var minRange = document.getElementById('min-range');
 var maxRange = document.getElementById('max-range');
+var update = document.getElementById('update')
 var resetGame = document.getElementById('reset-game');
 var submitGuess = document.getElementById('submit-guess');
+var clearGame = document.getElementById('clear-game');
 var playerOneCurrentName = document.getElementById('player-one-current-name');
 var playerOneName = document.getElementById('player-one-name');
 var playerTwoCurrentName = document.getElementById('player-two-current-name');
@@ -36,22 +32,71 @@ var playerOneHighLow = document.getElementById('player-one-high-low');
 var playerTwoHighLow = document.getElementById('player-two-high-low');
 var resultsWinnerName = document.getElementById('results-winner-name');
 
+window.addEventListener('load', function() {
+  clearInputDisable();
+  resetGame.disabled = true;
+  update.disabled = true;
+  submitGuess.disabled = true;
+});
 
-document.getElementById('update').addEventListener('click', function() {
-  minNumber = parseInt(minRange.value);
-  maxNumber = parseInt(maxRange.value);
-  if (Number.isInteger(minNumber) != true) {
-    alert("Min Range is not a number!!");
-  } else if (Number.isInteger(maxNumber) != true) {
-    alert("Max Range is not a number!");
-  } else {
-    secretNumber = Math.floor((Math.random() * maxNumber) + minNumber)
-    document.getElementById('min-range-current').innerText = minRange.value;
-    document.getElementById('max-range-current').innerText = maxRange.value;
-  }
+minRange.addEventListener('change', function() {
+
+  checkRangeNumber(minRange.value, document.getElementById('error-one-not-number'),document.getElementById('min-range'));
+  isEmpty();
+  checkRanges(document.getElementById('error-one'), document.getElementById('min-range'));
 })
 
-//Resets Random Number
+maxRange.addEventListener('change', function() {
+
+  checkRangeNumber(maxRange.value, document.getElementById('error-two-not-number'),document.getElementById('max-range'));
+  isEmpty();
+  checkRanges(document.getElementById('error-two'), document.getElementById('max-range'));
+})
+
+update.addEventListener('click', function() {
+  minNumber = parseInt(minRange.value);
+  maxNumber = parseInt(maxRange.value);
+  secretNumber = Math.floor((Math.random() * maxNumber) + minNumber)
+  document.getElementById('min-range-current').innerText = minRange.value;
+  document.getElementById('max-range-current').innerText = maxRange.value;
+})
+
+playerOneName.addEventListener('change', function() {
+  checkName(playerOneName.value, document.getElementById('name-error-one'), document.getElementById('player-one-name'), document.getElementById('player-one-name'));
+  alphaNumeric();
+  clearInputEnable();
+})
+
+playerTwoName.addEventListener('change', function() {
+  checkName(playerTwoName.value, document.getElementById('name-error-two'), document.getElementById('player-two-name'),document.getElementById('player-two-name'));
+  alphaNumeric();
+  clearInputEnable();
+})
+
+playerOneGuess.addEventListener('change', function() {
+  clearInputEnable();
+  numberCheck(playerOneGuess.value, document.getElementById('guess-number-error-one'), document.getElementById('guess-number-error-range-one'));
+  checkName(playerOneName.value, document.getElementById('name-error-one'));
+  checkName(playerTwoName.value, document.getElementById('name-error-two'));
+})
+
+playerTwoGuess.addEventListener('change', function() {
+  clearInputEnable();
+  numberCheck(playerTwoGuess.value, document.getElementById('guess-number-error-two'), document.getElementById('guess-number-error-range-two'));
+  checkName(playerOneName.value, document.getElementById('name-error-one'));
+  checkName(playerTwoName.value, document.getElementById('name-error-two'));
+})
+
+submitGuess.addEventListener('click', function() {
+  gameStart();
+  guessCount = guessCount + 1;
+  changeNames();
+  highLow();
+  setNames();
+  checkWinner();
+  winnerLogic();
+  gameInProgress();
+})
 
 resetGame.addEventListener('click', function() {
   secretNumber = Math.floor((Math.random() * maxNumber) + minNumber);
@@ -63,6 +108,16 @@ resetGame.addEventListener('click', function() {
   } else if (maxNumber != 100) {
     resetGame.disabled = true;
   }
+})
+
+clearGame.addEventListener('click', function() {
+  playerOneName.value = "";
+  playerTwoName.value = "";
+  playerOneGuess.value = "";
+  playerTwoGuess.value = "";
+  minRange.value = "";
+  maxRange.value = "";
+  clearInputDisable();
 })
 
 function changeNames() {
@@ -109,52 +164,42 @@ function timerComplete() {
   complete = ((finishTime - startTime)/60).toFixed(2);
 }
 
+function tie() {
+  resultsWinnerName.innerText = "TIE!";
+  document.querySelector('.guess-count').innerText = guessCount;
+  document.getElementById('results-player-one-current-name').innerText = playerOneName.value;
+  document.getElementById('results-player-two-current-name').innerText = playerTwoName.value;
+  document.getElementById('winner-disappear').innerText = "";
+  winner = true;
+  winnerName = "TIE!"
+}
+
+function gameWinner(winningPlayerName, nameNum) {
+  resultsWinnerName.innerText = winningPlayerName.value;
+  document.querySelector('.guess-count').innerText = guessCount;
+  document.getElementById('results-player-one-current-name').innerText = winningPlayerName.value;
+  document.getElementById('results-player-two-current-name').innerText = winningPlayerName.value;
+  winner = true;
+  winnerName = nameNum;
+}
+
 function checkWinner() {
   if (playerOneCurrentGuess.innerText == secretNumber && playerTwoCurrentGuess.innerText == secretNumber) {
-    resultsWinnerName.innerText = "TIE!";
-    document.querySelector('.guess-count').innerText = guessCount;
-    document.getElementById('results-player-one-current-name').innerText = playerOneName.value;
-    document.getElementById('results-player-two-current-name').innerText = playerTwoName.value;
-    document.getElementById('winner-disappear').innerText = "";
-    winner = true;
-    winnerName = "TIE!"
+    tie();
   } else if (playerOneCurrentGuess.innerText == secretNumber) {
-    resultsWinnerName.innerText = playerOneName.value;
-    document.querySelector('.guess-count').innerText = guessCount;
-    document.getElementById('results-player-one-current-name').innerText = playerOneName.value;
-    document.getElementById('results-player-two-current-name').innerText = playerTwoName.value;
-    winner = true;
-    winnerName = nameOne;
+    gameWinner(playerOneName, nameOne);
   } else if (playerTwoCurrentGuess.innerText == secretNumber) {
-    resultsWinnerName.innerText = playerTwoName.value;
-    document.querySelector('.guess-count').innerText = guessCount;
-    document.getElementById('results-player-one-current-name').innerText = playerOneName.value;
-    document.getElementById('results-player-two-current-name').innerText = playerTwoName.value;
-    winner = true;
-    winnerName = nameTwo;
-  } else {
-    console.log('keep going')
+    gameWinner(playerTwoName, nameTwo);
   }
 }
 
-
-function checkNameOne() {
-  if (playerOneName.value == "") {
+function checkName(name, errorMsg) {
+  if (name == "") {
     submitGuess.disabled = true;
-    document.getElementById('name-error-one').classList.add('show');
+    errorMsg.classList.add('show');
   } else {
     submitGuess.disabled = false;
-    document.getElementById('name-error-two').classList.remove('show');
-  }
-}
-
-function checkNameTwo() {
-  if (playerTwoName.value == "") {
-    submitGuess.disabled = true;
-      document.getElementById('name-error-two').classList.add('show');
-  } else {
-    submitGuess.disabled = false;
-    document.getElementById('name-error-two').classList.remove('show');
+    errorMsg.classList.remove('show');
   }
 }
 
@@ -173,18 +218,8 @@ function alphaNumeric() {
     document.getElementById('alpha-error-one').classList.remove('show');
     document.getElementById('alpha-error-two').classList.remove('show');
   }
+  }
 }
-}
-
-playerOneName.addEventListener('change', function() {
-  checkNameOne();
-  alphaNumeric();
-})
-
-playerTwoName.addEventListener('change', function() {
-  checkNameTwo();
-  alphaNumeric();
-})
 
 function resetNumAndGuess() {
   secretNumber = Math.floor((Math.random() * maxNumber) + minNumber);
@@ -198,98 +233,129 @@ function winUpdateRange() {
   document.getElementById('max-range-current').innerText = maxNumber;
 }
 
-submitGuess.addEventListener('click', function() {
-    timerStart();
-    checkNameOne();
-    checkNameTwo();
-    alphaNumeric();
-    p1Guess = parseInt(playerOneGuess.value)
-    p2Guess = parseInt(playerTwoGuess.value)
+function gameStart() {
+  timerStart();
+  checkName(playerOneName.value, document.getElementById('name-error-one'));
+  checkName(playerTwoName.value, document.getElementById('name-error-two'));
+  alphaNumeric();
+}
+
+
+function numberCheck(playerNumGuess, errorOne, errorRangeOne) {
+  p1Guess = parseInt(playerNumGuess)
   if (Number.isInteger(p1Guess) != true) {
-    alert("Player 1! C'MON! That's not a number!");
-  } else if (Number.isInteger(p2Guess) != true) {
-    alert("Player 2! C'MON! That's not a number!");
-  } else if (minNumber < p1Guess != true || p1Guess < maxNumber != true) {
-    alert("Player 1! That's not within range!");
-  } else if (minNumber < p2Guess != true || p2Guess < maxNumber != true) {
-    alert("Player 2! That's not within range!");
+    submitGuess.disabled = true;
+    errorOne.classList.add('show');
+    return;
+  } else if (minNumber - 1 < p1Guess != true || p1Guess < maxNumber + 1 != true) {
+    submitGuess.disabled = true;
+    errorRangeOne.classList.add('show');
+    return;
   } else {
-    guessCount = guessCount + 1;
-    changeNames();
-    highLow();
-    setNames();
-    checkWinner();
-    if (winner == true) {
-    timerEnd();
-    timerComplete();
-    winnerCard();
-    resetNumAndGuess();
-    winUpdateRange();
-    winner = false;
-    console.log('win')
-    }
+    submitGuess.disabled = false;
+    errorOne.classList.remove('show');
+    errorRangeOne.classList.remove('show');
+  }
+}
 
+function winnerLogic() {
+  if (winner == true) {
+  timerEnd();
+  timerComplete();
+  winnerCard();
+  resetNumAndGuess();
+  winUpdateRange();
+  winner = false;
+  console.log('win')
+  }
+}
 
-    if (guessCount > 0) {
-    document.getElementById("reset-game").disabled = false;
-    playerOneGuess.value = "";
-    playerTwoGuess.value = "";
-  }}
-})
-
-
-// Clears Input Fields
-
-document.getElementById('clear-game').addEventListener('click', function() {
-  playerOneName.value = "";
-  playerTwoName.value = "";
+function gameInProgress() {
+  if (guessCount > 0) {
+  document.getElementById("reset-game").disabled = false;
   playerOneGuess.value = "";
   playerTwoGuess.value = "";
-})
-
-//disables clear button on load
-
-window.addEventListener('load', function() {
-  document.getElementById('clear-game').disabled = true;
-  document.getElementById('reset-game').disabled = true;
-});
-
-
-
-//The application should display an error message if the value entered in the Max Range input is less than the value in the Min Range input
-//The application should display an error message if the value entered in the Min Range input is greater than the value in the Max Range input
-
-document.getElementById('min-range').addEventListener('change', function() {
-  if (document.getElementById('min-range').value > document.getElementById('max-range').value && document.getElementById('max-range').value != "") {
-    document.getElementById('error-one').classList.add('show');
-    document.getElementById('update').disabled = true;
-} else {
-    document.getElementById('error-one').classList.remove('show');
-    document.getElementById('update').disabled = false;
 }
-})
+}
 
-document.getElementById('max-range').addEventListener('change', function() {
-  if (document.getElementById('min-range').value > document.getElementById('max-range').value && document.getElementById('max-range').value != "") {
-    document.getElementById('error-one').classList.add('show');
-    document.getElementById('update').disabled = true;
-  } else {
-    document.getElementById('error-one').classList.remove('show');
-    document.getElementById('update').disabled = false;
+function clearInputDisable() {
+  clearGame.disabled = true;
+}
+
+function clearInputEnable() {
+  clearGame.disabled = false;
+}
+
+function isEmpty() {
+  if (maxRange.value == "" || minRange.value == ""){
+    update.disabled = true;
   }
-})
+}
 
+function checkRanges(errorMsg, border) {
+  if (parseInt(minRange.value)> parseInt(maxRange.value) && maxRange.value != "") {
+    errorMsg.classList.add('show');
+    border.classList.add('pink-border');
+    update.disabled = true;
+    console.log("55")
+    return;
+  } else if (parseInt(minRange.value) > parseInt(maxRange.value) && maxRange.value != "") {
+   errorMsg.classList.add('show');
+    border.classList.add('pink-border');
+    update.disabled = true;
+    console.log("1")
+    return;
+  } else {
+    errorMsg.classList.remove('show');
+    update.disabled = false;
+    console.log("2")
+    clearInputEnable();
+    return;
+}
 
+  isEmpty();
+}
 
+function checkRangeNumber(number, errorMsg, border) {
+  number = parseInt(number);
+  if (Number.isInteger(number) != true) {
+    errorMsg.classList.add('show');
+    border.classList.add('pink-border');
+    update.disabled = true;
+    console.log("3")
+    return;
+  } else {
+    errorMsg.classList.remove('show');
+    border.classList.remove('pink-border');
+    update.disabled = false;
+    clearInputEnable();
+    console.log("4")
+    return;
+  }
+  isEmpty();
+}
 
-function winnerCard() {
+function cardUi() {
   var article = document.createElement('span');
   document.querySelector('.section-right').appendChild(article);
-  article.innerHTML = `<article class="text-center">
+  article.innerHTML = `<article id="right-ui" class="right-ui hidden slide-bottom">
+    <div class="media-flex flex-space-between">
+      <button class="button-100" type="button" name="button" id="clear-card">CLEAR ALL</button>
+      <button class="button-100" type="button" name="button" id="highscore">HIGHSCORES</button>
+      <button class="button-100" type="button" name="button" id="sort">SORT</button>
+  </div>
+  </article>`;
+}
+
+function winnerCard() {
+  cardUi();
+  var article = document.createElement('span');
+  document.querySelector('.section-right').appendChild(article);
+  article.innerHTML = `<article class="text-center fade-in">
           <p class="flex-space-around cvc"><span class="bold" id="results-player-one-current-name" >${nameOne} </span><span class="slim"> VS </span><span class="bold" id="results-player-two-current-name"> ${nameTwo}</span></p>
           <hr>
-          <div class="winner">
-            <p><span class="bold large fade-in" id="results-winner-name">${winnerName} </span></p>
+          <div class="winner scale-up-center">
+            <p><span class="bold large" id="results-winner-name">${winnerName} </span></p>
             <h1 class="slim large" id="winner-disappear">WINNER</h1>
           </div>
           <hr>
@@ -299,8 +365,19 @@ function winnerCard() {
     top: 357, // could be negative value
     behavior: 'smooth'
 })
+document.getElementById('right-ui').classList.remove('hidden');
+create();
 }
 
+
+// clear all cards
+function create() {
+if (document.getElementById('clear-card') != null) {
+document.getElementById('clear-card').addEventListener('click', function() {
+  document.querySelector('.section-right').innerHTML = ""
+})
+}
+}
 //enabled clear button
 
 

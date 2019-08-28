@@ -7,7 +7,6 @@ var winner = false;
 var winnerName = "";
 var nameOne = "";
 var nameTwo = "";
-var banList = ["#","?","!","@","#","$","%","^","&","*","(",")","-","+","=","<",">",",",".","/","`","~","{","}",";",":","|"]
 var startTime = "";
 var finishTime = "";
 var complete = "";
@@ -29,13 +28,11 @@ var playerTwoGuess = document.getElementById('player-two-guess');
 var playerOneHighLow = document.getElementById('player-one-high-low');
 var playerTwoHighLow = document.getElementById('player-two-high-low');
 var resultsWinnerName = document.getElementById('results-winner-name');
+var sectionRight = document.querySelector('.section-right');
 
-document.querySelector('.section-right').addEventListener('click', function(event) {
+sectionRight.addEventListener('click', function(event) {
   if (event.target.classList.contains('delete')) {
-    event.path[3].classList.add('fade-out');
-    setTimeout(function() {
-      event.path[3].remove();
-    }, 1400)
+    event.path[3].remove();
   }
 })
 
@@ -46,80 +43,89 @@ window.addEventListener('load', function() {
   submitGuess.disabled = true;
 });
 
-minRange.addEventListener('change', function() {
+minRange.addEventListener('change', checkMinRange);
+
+maxRange.addEventListener('change', checkMaxRange);
+
+update.addEventListener('click', updateButton);
+
+playerOneName.addEventListener('change', checkPlayerOneName);
+
+playerTwoName.addEventListener('change', checkPlayerTwoName);
+
+playerOneGuess.addEventListener('change', checkPlayerOneGuess);
+
+playerTwoGuess.addEventListener('change', checkPlayerTwoGuess);
+
+submitGuess.addEventListener('click', submitGuessButton);
+
+resetGame.addEventListener('click', resetGameButton);
+
+clearGame.addEventListener('click', clearGameButton);
+
+function checkMinRange() {
   checkRangeNumber(minRange.value, document.getElementById('error-one-not-number'),document.getElementById('min-range'));
   checkRanges(document.getElementById('error-one'), document.getElementById('min-range'));
   isEmpty();
-})
+}
 
-maxRange.addEventListener('change', function() {
+function checkMaxRange() {
   checkRangeNumber(maxRange.value, document.getElementById('error-two-not-number'),document.getElementById('max-range'));
   checkRanges(document.getElementById('error-two'), document.getElementById('max-range'));
   isEmpty();
-})
+}
 
-update.addEventListener('click', function() {
+function updateButton() {
   minNumber = parseInt(minRange.value);
   maxNumber = parseInt(maxRange.value);
   secretNumber = Math.floor((Math.random() * (maxNumber - minNumber + 1)) + minNumber);
   document.getElementById('min-range-current').innerText = minRange.value;
   document.getElementById('max-range-current').innerText = maxRange.value;
-})
+}
 
-playerOneName.addEventListener('change', function() {
-  checkName(playerOneName, document.getElementById('name-error-one'), document.getElementById('player-one-name'), document.getElementById('player-one-name'));
+function checkPlayerOneName() {
+  checkName(playerOneName, document.getElementById('name-error-one'));
   alphaNumeric();
   clearInputEnable();
   isEmpty();
-})
+}
 
-playerTwoName.addEventListener('change', function() {
-  checkName(playerTwoName, document.getElementById('name-error-two'), document.getElementById('player-two-name'),document.getElementById('player-two-name'));
+function checkPlayerTwoName() {
+  checkName(playerTwoName, document.getElementById('name-error-two'));
   alphaNumeric();
   clearInputEnable();
   isEmpty();
-})
+}
 
-playerOneGuess.addEventListener('change', function() {
+function checkPlayerOneGuess() {
   clearInputEnable();
   numberCheck(playerOneGuess, document.getElementById('guess-number-error-one'), document.getElementById('guess-number-error-range-one'));
-  checkName(playerOneName, document.getElementById('name-error-one'));
-  checkName(playerTwoName, document.getElementById('name-error-two'));
   isEmpty();
-})
+}
 
-playerTwoGuess.addEventListener('change', function() {
+function checkPlayerTwoGuess() {
   clearInputEnable();
   numberCheck(playerTwoGuess, document.getElementById('guess-number-error-two'), document.getElementById('guess-number-error-range-two'));
-  checkName(playerOneName, document.getElementById('name-error-one'));
-  checkName(playerTwoName, document.getElementById('name-error-two'));
   isEmpty();
-})
+}
 
-submitGuess.addEventListener('click', function() {
-  gameStart();
+function submitGuessButton() {
   guessCount = guessCount + 1;
+  resetGameEnable();
   changeNames();
   highLow();
-  setNames();
   checkWinner();
   winnerLogic();
-  gameInProgress();
-})
+  clearGuesses();
+}
 
-resetGame.addEventListener('click', function() {
-  secretNumber = Math.floor((Math.random() * maxNumber) + minNumber);
+function resetGameButton() {
+  secretNumber = Math.floor((Math.random() * (maxNumber - minNumber + 1)) + minNumber);
   guessCount = 0;
-  if (guessCount < 1) {
-    resetGame.disabled = true;
-  } else if (minNumber != 1) {
-    resetGame.disabled = true;
-  } else if (maxNumber != 100) {
-    resetGame.disabled = true;
-  }
-})
+  resetGame.disabled = true;
+}
 
-clearGame.addEventListener('click', function() {
+function clearGameButton() {
   playerOneName.value = "";
   playerTwoName.value = "";
   playerOneGuess.value = "";
@@ -127,9 +133,126 @@ clearGame.addEventListener('click', function() {
   minRange.value = "";
   maxRange.value = "";
   clearInputDisable();
-})
+}
 
+function isEmpty() {
+  if (maxRange.value == "" || minRange.value == ""){
+    update.disabled = true;
+  }
+  if (minRange.classList.contains('pink-border') || minRange.classList.contains('pink-border' )) {
+    update.disabled = true;
+  }
+  if (playerOneName.classList.contains('pink-border') || playerTwoName.classList.contains('pink-border') || playerTwoGuess.classList.contains('pink-border') || playerTwoGuess.classList.contains('pink-border')) {
+    submitGuess.disabled = true;
+  }
+  if (playerOneGuess.value == "" || playerTwoGuess.value == "") {
+    submitGuess.disabled = true;
+  }
+}
 
+function checkRangeNumber(number, errorMsg, border) {
+  number = parseInt(number);
+  if (Number.isInteger(number) != true) {
+    errorMsg.classList.add('show');
+    border.classList.add('pink-border');
+    update.disabled = true;
+    return;
+  } else {
+    errorMsg.classList.remove('show');
+    border.classList.remove('pink-border');
+    update.disabled = false;
+    clearInputEnable();
+    return;
+  }
+}
+
+function checkRanges(errorMsg, border) {
+  if (parseInt(minRange.value)> parseInt(maxRange.value) && maxRange.value != "") {
+    errorMsg.classList.add('show');
+    border.classList.add('pink-border');
+    update.disabled = true;
+    return;
+  } else if (parseInt(minRange.value) > parseInt(maxRange.value) && maxRange.value != "") {
+   errorMsg.classList.add('show');
+    border.classList.add('pink-border');
+    update.disabled = true;
+    return;
+  } else {
+    errorMsg.classList.remove('show');
+    update.disabled = false;
+    clearInputEnable();
+    return;
+  }
+}
+
+function checkName(name, errorMsg) {
+  if (name.value == "") {
+    submitGuess.disabled = true;
+    name.classList.add('pink-border');
+    errorMsg.classList.add('show');
+  } else {
+    submitGuess.disabled = false;
+    name.classList.remove('pink-border');
+    errorMsg.classList.remove('show');
+  }
+}
+
+function alphaNumeric() {
+  var banList = ["#","?","!","@","#","$","%","^","&","*","(",")","-","+","=","<",">",",",".","/","`","~","{","}",";",":","|"]
+  for (i = 0 ; i < banList.length; i++) {
+  if (playerOneName.value.split("").includes(banList[i]) == true) {
+    submitGuess.disabled = true;
+    document.getElementById('alpha-error-one').classList.add('show');
+    playerOneName.classList.add('pink-border');
+    return;
+  } else if (playerTwoName.value.split("").includes(banList[i]) == true) {
+    submitGuess.disabled = true;
+    playerTwoName.classList.add('pink-border');
+    document.getElementById('alpha-error-two').classList.add('show');
+    return;
+  } else {
+    submitGuess.disabled = false;
+    playerOneName.classList.remove('pink-border');
+    playerTwoName.classList.remove('pink-border');
+    document.getElementById('alpha-error-one').classList.remove('show');
+    document.getElementById('alpha-error-two').classList.remove('show');
+  }
+  }
+}
+
+function resetGameEnable() {
+  resetGame.disabled = false;
+}
+
+function clearInputDisable() {
+  clearGame.disabled = true;
+}
+
+function clearInputEnable() {
+  clearGame.disabled = false;
+}
+
+function numberCheck(playerNumGuess, errorOne, errorRangeOne) {
+  p1Guess = parseInt(playerNumGuess.value)
+  if (Number.isInteger(p1Guess) != true) {
+    submitGuess.disabled = true;
+    errorRangeOne.classList.remove('show');
+    playerNumGuess.classList.add('pink-border');
+    errorOne.classList.add('show');
+    return;
+  } else if (minNumber - 1 < p1Guess != true || p1Guess < maxNumber + 1 != true) {
+    submitGuess.disabled = true;
+    errorOne.classList.remove('show');
+    playerNumGuess.classList.add('pink-border');
+    errorRangeOne.classList.add('show');
+    return;
+  } else {
+    submitGuess.disabled = false;
+    errorOne.classList.remove('show');
+    errorRangeOne.classList.remove('show');
+    playerNumGuess.classList.remove('pink-border');
+  }
+}
 
 function changeNames() {
   playerOneCurrentName.innerText = playerOneName.value;
@@ -156,93 +279,28 @@ function highLow() {
     }
 }
 
-function setNames() {
-  nameOne = playerOneName.value;
-  nameTwo = playerTwoName.value;
-}
-
-function timerStart() {
-  if (guessCount == 0) {
-  startTime = Math.floor(Date.now()/1000);
-  }
-}
-
-function timerEnd() {
-  finishTime = Math.floor(Date.now()/1000);
-}
-
-function timerComplete() {
-  complete = ((finishTime - startTime)/60).toFixed(2);
-}
-
-function tie() {
-  resultsWinnerName.innerText = "TIE!";
-  document.querySelector('.guess-count').innerText = guessCount;
-  document.getElementById('results-player-one-current-name').innerText = playerOneName.value;
-  document.getElementById('results-player-two-current-name').innerText = playerTwoName.value;
-  document.getElementById('winner-disappear').innerText = "";
-  winner = true;
-  winnerName = "TIE!"
-}
-
-function gameWinner(winningPlayerName, nameNum) {
-  resultsWinnerName.innerText = winningPlayerName.value;
-  document.querySelector('.guess-count').innerText = guessCount;
-  document.getElementById('results-player-one-current-name').innerText = winningPlayerName.value;
-  document.getElementById('results-player-two-current-name').innerText = winningPlayerName.value;
-  winner = true;
-  winnerName = nameNum;
-}
-
 function checkWinner() {
   if (playerOneCurrentGuess.innerText == secretNumber && playerTwoCurrentGuess.innerText == secretNumber) {
     tie();
   } else if (playerOneCurrentGuess.innerText == secretNumber) {
-    gameWinner(playerOneName, nameOne);
+    gameWinner(playerOneName);
   } else if (playerTwoCurrentGuess.innerText == secretNumber) {
-    gameWinner(playerTwoName, nameTwo);
+    gameWinner(playerTwoName);
   }
 }
 
-function checkName(name, errorMsg) {
-  if (name.value == "") {
-    submitGuess.disabled = true;
-    name.classList.add('pink-border');
-    errorMsg.classList.add('show');
-    isEmpty();
-  } else {
-    submitGuess.disabled = false;
-    name.classList.remove('pink-border');
-    errorMsg.classList.remove('show');
-    isEmpty();
-  }
+function tie() {
+  winnerName = "TIE!";
+  nameOne = playerOneName.value;
+  nameTwo = playerTwoName.value;
+  winner = true;
 }
 
-function alphaNumeric() {
-  for (i = 0 ; i < banList.length; i++) {
-  if (playerOneName.value.split("").includes(banList[i]) == true) {
-    submitGuess.disabled = true;
-    document.getElementById('alpha-error-one').classList.add('show');
-    playerOneName.classList.add('pink-border');
-    return;
-  } else if (playerTwoName.value.split("").includes(banList[i]) == true) {
-    submitGuess.disabled = true;
-    playerTwoName.classList.add('pink-border');
-    document.getElementById('alpha-error-two').classList.add('show');
-    return;
-  } else {
-    submitGuess.disabled = false;
-    playerOneName.classList.remove('pink-border');
-    playerTwoName.classList.remove('pink-border');
-    document.getElementById('alpha-error-one').classList.remove('show');
-    document.getElementById('alpha-error-two').classList.remove('show');
-  }
-  }
-}
-
-function resetNumAndGuess() {
-  secretNumber = Math.floor((Math.random() * maxNumber) + minNumber);
-  guessCount = 0;
+function gameWinner(winningPlayerName) {
+  winnerName = winningPlayerName.value;
+  nameOne = playerOneName.value;
+  nameTwo = playerTwoName.value;
+  winner = true;
 }
 
 function winUpdateRange() {
@@ -252,115 +310,20 @@ function winUpdateRange() {
   document.getElementById('max-range-current').innerText = maxNumber;
 }
 
-function gameStart() {
-  timerStart();
-  checkName(playerOneName, document.getElementById('name-error-one'));
-  checkName(playerTwoName, document.getElementById('name-error-two'));
-  alphaNumeric();
-}
-
-
-function numberCheck(playerNumGuess, errorOne, errorRangeOne) {
-  p1Guess = parseInt(playerNumGuess.value)
-  if (Number.isInteger(p1Guess) != true) {
-    submitGuess.disabled = true;
-    errorRangeOne.classList.remove('show');
-    playerNumGuess.classList.add('pink-border');
-    errorOne.classList.add('show');
-    return;
-  } else if (minNumber - 1 < p1Guess != true || p1Guess < maxNumber + 1 != true) {
-    submitGuess.disabled = true;
-    errorOne.classList.remove('show');
-    playerNumGuess.classList.add('pink-border');
-    errorRangeOne.classList.add('show');
-    return;
-  } else {
-    submitGuess.disabled = false;
-    errorOne.classList.remove('show');
-    errorRangeOne.classList.remove('show');
-    playerNumGuess.classList.remove('pink-border');
-  }
-}
-
 function winnerLogic() {
   if (winner == true) {
-  timerEnd();
-  timerComplete();
   winnerCard();
-  resetNumAndGuess();
+  resetGameButton();
   winUpdateRange();
   winner = false;
-  console.log('win')
   }
 }
 
-function gameInProgress() {
-  if (guessCount > 0) {
-  document.getElementById("reset-game").disabled = false;
+function clearGuesses() {
   playerOneGuess.value = "";
   playerTwoGuess.value = "";
-  }
 }
 
-function clearInputDisable() {
-  clearGame.disabled = true;
-}
-
-function clearInputEnable() {
-  clearGame.disabled = false;
-}
-
-function isEmpty() {
-  if (maxRange.value == "" || minRange.value == ""){
-    update.disabled = true;
-  }
-  if (minRange.classList.contains('pink-border') || minRange.classList.contains('pink-border' )) {
-    update.disabled = true;
-  }
-  if (playerOneName.classList.contains('pink-border') || playerTwoName.classList.contains('pink-border') || playerTwoGuess.classList.contains('pink-border') || playerTwoGuess.classList.contains('pink-border')) {
-    submitGuess.disabled = true;
-  }
-  if (playerOneGuess.value == "" || playerTwoGuess.value == "") {
-    submitGuess.disabled = true;
-  }
-}
-
-function checkRanges(errorMsg, border) {
-  if (parseInt(minRange.value)> parseInt(maxRange.value) && maxRange.value != "") {
-    errorMsg.classList.add('show');
-    border.classList.add('pink-border');
-    update.disabled = true;
-    return;
-  } else if (parseInt(minRange.value) > parseInt(maxRange.value) && maxRange.value != "") {
-   errorMsg.classList.add('show');
-    border.classList.add('pink-border');
-    update.disabled = true;
-    return;
-  } else {
-    errorMsg.classList.remove('show');
-    update.disabled = false;
-    clearInputEnable();
-    return;
-  }
-    isEmpty();
-}
-
-function checkRangeNumber(number, errorMsg, border) {
-  number = parseInt(number);
-  if (Number.isInteger(number) != true) {
-    errorMsg.classList.add('show');
-    border.classList.add('pink-border');
-    update.disabled = true;
-    return;
-  } else {
-    errorMsg.classList.remove('show');
-    border.classList.remove('pink-border');
-    update.disabled = false;
-    clearInputEnable();
-    return;
-  }
-  isEmpty();
-}
 
 function cardUi() {
   var article = document.createElement('span');
@@ -388,55 +351,20 @@ function winnerCard() {
           <hr>
           <p class="flex-space-between guesses"><span><span class="bold guess-count">${guessCount}</span>GUESSES</span> <span><span class="bold guess-count">${complete}</span>MINUTES</span><button class="delete" type="button" name="button" id="delete"><span class="delete-inner">X</span></button></p>
         </article>`;
-  document.querySelector('.section-right').scrollBy({
+    document.querySelector('.section-right').scrollBy({
     top: 357, // could be negative value
     behavior: 'smooth'
-})
-document.getElementById('right-ui').classList.remove('hidden');
-create();
+  })
+  document.getElementById('right-ui').classList.remove('hidden');
+  create();
 }
 
 
 // clear all cards
 function create() {
-if (document.getElementById('clear-card') != null) {
-document.getElementById('clear-card').addEventListener('click', function() {
-  document.querySelector('.section-right').innerHTML = ""
-})
+  if (document.getElementById('clear-card') != null) {
+    document.getElementById('clear-card').addEventListener('click', function() {
+    document.querySelector('.section-right').innerHTML = ""
+    })
+  }
 }
-}
-//enabled clear button
-
-
-// document.querySelectorAll('input').addEventListener('change', function() {
-// for (var i = 0; i < querySelectorAll('input').length; i++) {
-//   if ( querySelectorAll('input')[i] != "") {
-//  document.getElementById("clear-game").disabled = false;
-// }
-// }
-// })
-
-
-
-// Move these uptop after we decide what to do
-
-
-//var mustBeNumber = document.querySelectorAll('.must-be-number');
-
-// mustBeNumber.forEach(input => {
-//
-//    input.addEventListener('change', event => {
-//      if (typeof mustBeNumberValue === "string") {
-//      alert('no');
-//    }})
-// });
-
-
-// var mustBeNumberValue = mustBeNumber.value
-//     if (typeof mustBeNumberValue === "string") {
-  //   alert('no');
-// mustBeNumber.addEventListener('change', function() {
-//   if (typeof mustBeNumberValue === "string") {
-//     alert('no');
-//   } else {}
-// })

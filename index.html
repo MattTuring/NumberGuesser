@@ -12,7 +12,7 @@
       <h1 class="text-center larger pink" id="header"><strong class="bold">NUMBER</strong><span class="slim">GUESSER</span></h1>
       <div class="flex-center">
         <div class="line"></div>
-        <h3 class="text-center grey slim header-adjust">ULTIMATE CHALLENGER EDITION</h3>
+        <h2 class="text-center grey slim header-adjust">ULTIMATE CHALLENGER EDITION</h2>
         <div class="line"></div>
       </div>
     </header>
@@ -20,7 +20,7 @@
       <section class="section-left full-height">
         <article class="set-range-section">
           <form class="text-box name-box">
-            <h2>Set Range</h2>
+            <h2 class="black">Set Range</h2>
             <span>Min Range</span>
             <input id="min-range" type="text" class="must-be-number" name="Min Range" value="">
             <span id="error-one" class="hidden"><img class="img" src="img/error.svg" alt="">Higher then Max Range</span>
@@ -35,10 +35,10 @@
           <button class="flex-end" type="button" name="button" id="update">UPDATE</button>
         </article>
         <article class="">
-          <p class="margin">The Current Range is <span class="bold underline" id="min-range-current">1</span> to <span class="bold underline" id="max-range-current">100</span></p>
+          <p class="margin">The Current Range is <span class="bold underline black" id="min-range-current">1</span> to <span class="bold underline black" id="max-range-current">100</span></p>
           <div class="set-range-section">
             <form class="text-box name-box">
-              <h2>Challenger 1</h2>
+              <h2 class="black">Challenger 1</h2>
               <span>Name</span>
               <span id="name-error-one" class="hidden"><img class="img" src="img/error.svg" alt="">You need a name</span>
                 <span id="alpha-error-one" class="hidden"><img class="img" src="img/error.svg" alt="">No symbols</span>
@@ -51,9 +51,9 @@
               <span id="guess-number-error-range-one" class="hidden"><img class="img" src="img/error.svg" alt="">That's not within range</span>
             </form>
           </div>
-          <div class="set-range-section">
+          <div class="set-range-section margin-top-25">
             <form class="text-box name-box">
-              <h2>Challenger 2</h2>
+              <h2 class="black">Challenger 2</h2>
               <span>Name</span>
               <span id="name-error-two" class="hidden"><img class="img" src="img/error.svg" alt="">You need a name</span>
               <span id="alpha-error-two" class="hidden"><img class="img" src="img/error.svg" alt="">No symbols</span>
@@ -66,24 +66,24 @@
               <span id="guess-number-error-range-two" class="hidden"><img class="img" src="img/error.svg" alt="">That's not within range</span>
             </form>
           </div>
-          <span class="game-buttons column"><button class="button-100" type="button" name="button" id="submit-guess">SUBMIT GUESS</button><button class="button-100" type="button" name="button" id="reset-game">RESET GAME</button><button class="button-100" type="button" name="button" id="clear-game">CLEAR GAME</button></span>
+          <span class="game-buttons column margin-top-25"><button class="button-100" type="button" name="button" id="submit-guess">SUBMIT GUESS</button><button class="button-100" type="button" name="button" id="reset-game">RESET GAME</button><button class="button-100" type="button" name="button" id="clear-game">CLEAR GAME</button></span>
         </article>
         <article class="">
-          <h3 class="">Latest Score</h3>
+          <h2 class="black">Latest Score</h2>
           <div class="flex-space-evenly text-center column">
             <form class="name-box">
               <h3 id="player-one-current-name">Challenger 1 Name</h3>
               <p>current guess</p>
-              <h1 class="larger pink" id="player-one-current-guess">?</h1>
-              <p id="player-one-high-low">that's too high</p>
+              <h1 class="largest pink" id="player-one-current-guess">?</h1>
+              <p class="em"id="player-one-high-low">that's too high</p>
             </form>
             <div class="small">
             </div>
             <form class="name-box">
               <h3 id="player-two-current-name">Challenger 2 Name</h3>
               <p>current guess</p>
-              <h1 class="larger pink" id="player-two-current-guess">?</h1>
-              <p id="player-two-high-low">that's too high</p>
+              <h1 class="largest pink" id="player-two-current-guess">?</h1>
+              <p class="em" id="player-two-high-low">that's too high</p>
             </form>
           </div>
         </article>

@@ -353,6 +353,8 @@ function cardUi() {
       <button class="button-100" type="button" name="button" id="sort">SORT</button>
   </div>
   </article>`;
+  document.getElementById('highscore').disabled = true;
+  document.getElementById('sort').disabled = true;
 }
 
 function winnerCard() {

@@ -110,6 +110,7 @@ function checkPlayerTwoGuess() {
 }
 
 function submitGuessButton() {
+  timerStart();
   guessCount = guessCount + 1;
   resetGameEnable();
   changeNames();
@@ -254,6 +255,12 @@ function numberCheck(playerNumGuess, errorOne, errorRangeOne) {
   }
 }
 
+function timerStart() {
+  if (guessCount == 0) {
+  startTime = Math.floor(Date.now()/1000);
+  }
+}
+
 function changeNames() {
   playerOneCurrentName.innerText = playerOneName.value;
   playerTwoCurrentName.innerText = playerTwoName.value;
@@ -301,7 +308,18 @@ function gameWinner(winningPlayerName) {
   nameOne = playerOneName.value;
   nameTwo = playerTwoName.value;
   winner = true;
+  timerEnd();
+  timerComplete();
 }
+
+function timerEnd() {
+  finishTime = Math.floor(Date.now()/1000);
+}
+
+function timerComplete() {
+  complete = ((finishTime - startTime)/60).toFixed(2);
+}
+
 
 function winUpdateRange() {
   minNumber = minNumber - 10;
